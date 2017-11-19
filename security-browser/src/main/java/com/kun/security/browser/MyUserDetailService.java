@@ -16,7 +16,7 @@ public class MyUserDetailService implements UserDetailsService{
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 查询数据库
+        // 查询数据库，通过用户名得到密码及权限
         return new User(
                 "kun", // 用户名
                 "$2a$10$COHPGeNDbIC/QZGIH3339.N8S391mZaj5B5/MyfhilHQ4GnEmcTh6", // 加密密码

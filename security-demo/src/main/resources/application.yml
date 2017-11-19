@@ -11,3 +11,8 @@ security:
   basic:
     enabled: true
 
+kun:
+  security:
+    browser:
+      loginPage: /demo-login.html
+
