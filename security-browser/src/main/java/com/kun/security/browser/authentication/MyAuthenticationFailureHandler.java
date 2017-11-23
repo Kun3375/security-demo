@@ -1,6 +1,7 @@
 package com.kun.security.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kun.security.browser.support.SimpleResult;
 import com.kun.security.core.properties.AuthHandleType;
 import com.kun.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +49,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         if (AuthHandleType.JSON == securityProperties.getCommon().getAuthHandleType()) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResult(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

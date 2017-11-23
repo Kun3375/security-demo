@@ -1,5 +1,6 @@
 package com.kun.security.browser;
 
+import com.kun.security.core.captcha.CaptchaValidationFilter;
 import com.kun.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author CaoZiye
@@ -24,6 +26,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
     @Autowired
     private AuthenticationFailureHandler myAuthenticationFailureHandler;
+    @Autowired
+    private CaptchaValidationFilter captchaValidationFilter;
     
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -34,6 +38,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // 在验证用户名密码之前验证验证码
+                .addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 设置为表单登陆
                 .formLogin()
                 // 设置登陆页面
@@ -47,8 +53,14 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 不需要身份认证的页面
-                .antMatchers("/authentication/require",
-                        securityProperties.getBrowser().getLoginPage()).permitAll()
+                .antMatchers(
+                        // 默认的验证跳转路径
+                        "/authentication/require",
+                        // 配置的登录页面
+                        securityProperties.getBrowser().getLoginPage(),
+                        // 验证码路径
+                        "/captcha/image"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();

@@ -1,6 +1,5 @@
 package com.kun.security.web.aspect;
 
-import com.kun.security.dto.User;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

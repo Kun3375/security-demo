@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
-import org.springframework.web.context.request.async.CallableProcessingInterceptor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
