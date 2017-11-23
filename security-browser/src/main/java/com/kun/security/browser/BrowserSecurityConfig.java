@@ -1,7 +1,5 @@
 package com.kun.security.browser;
 
-import com.kun.security.browser.authentication.MyAuthenticationSuccessHandler;
-import com.kun.security.core.SecurityCoreConfig;
 import com.kun.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
