@@ -2,11 +2,13 @@ package com.kun.security.core.captcha;
 
 import com.kun.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -17,13 +19,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author CaoZiye
  * @version 1.0 2017/11/23 23:03
  */
 @Component
-public class CaptchaValidationFilter extends OncePerRequestFilter {
+public class CaptchaValidationFilter extends OncePerRequestFilter implements InitializingBean {
     
     @Autowired
     private SecurityProperties securityProperties;
@@ -31,14 +36,30 @@ public class CaptchaValidationFilter extends OncePerRequestFilter {
     private AuthenticationFailureHandler authenticationFailureHandler;
     
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private Set<String> urls = new HashSet<>();
+    
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(
+                securityProperties.getCaptcha().getImage().getUrls(), ",");
+        Collections.addAll(urls, configUrls);
+        urls.add(securityProperties.getCommon().getLoginProcessingUrl());
+    }
     
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // 仅在登录请求时做验证码校验
-        if (StringUtils.equals(securityProperties.getCommon().getLoginProcessingUrl(), request.getRequestURI())
-                && StringUtils.equalsIgnoreCase(request.getMethod(), "POST")) {
+        boolean action = false;
+        for (String url : urls) {
+            if (antPathMatcher.match(url, request.getRequestURI())) {
+                action = true;
+            }
+        }
+        
+        if (action) {
             try {
                 validate(new ServletWebRequest(request, response));
             } catch (CaptchaValidationException e) {
@@ -56,22 +77,24 @@ public class CaptchaValidationFilter extends OncePerRequestFilter {
                 (ImageCaptcha) sessionStrategy.getAttribute(request, CaptchaValidationController.SESSION_CAPTCHA_KEY);
         // 请求中输入的验证码
         String captchaInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "captcha");
-    
-        if (StringUtils.isBlank(captchaInRequest)) {
-            throw new CaptchaValidationException("验证码不能为空");
-        }
+        
         if (captchaInSession == null) {
             throw new CaptchaValidationException("验证码不存在");
         }
+        
+        sessionStrategy.removeAttribute(request, CaptchaValidationController.SESSION_CAPTCHA_KEY);
+        
+        if (StringUtils.isBlank(captchaInRequest)) {
+            throw new CaptchaValidationException("验证码不能为空");
+        }
         if (captchaInSession.isExpired()) {
-            sessionStrategy.removeAttribute(request, CaptchaValidationController.SESSION_CAPTCHA_KEY);
             throw new CaptchaValidationException("验证码已过期");
         }
         if (!StringUtils.equals(captchaInSession.getCode(), captchaInRequest)) {
             throw new CaptchaValidationException("验证码不正确");
         }
-    
-    
+        
+        
     }
     
     

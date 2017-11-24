@@ -32,7 +32,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
     private ObjectMapper objectMapper;
     
     /**
-     * 登录失败时触发
+     * 登录/认证失败时触发
      *
      * @param request
      * @param response
@@ -44,7 +44,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        log.info("登陆失败");
+        log.info("登陆/认证失败");
     
         if (AuthHandleType.JSON == securityProperties.getCommon().getAuthHandleType()) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

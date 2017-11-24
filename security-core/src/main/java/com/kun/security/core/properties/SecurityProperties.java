@@ -11,6 +11,7 @@ public class SecurityProperties {
     
     private CommonProperties common = new CommonProperties();
     private BrowserProperties browser = new BrowserProperties();
+    private CaptchaProperties captcha = new CaptchaProperties();
     
     public CommonProperties getCommon() {
         return common;
@@ -28,5 +29,11 @@ public class SecurityProperties {
         this.browser = browser;
     }
     
+    public CaptchaProperties getCaptcha() {
+        return captcha;
+    }
     
+    public void setCaptcha(CaptchaProperties captcha) {
+        this.captcha = captcha;
+    }
 }

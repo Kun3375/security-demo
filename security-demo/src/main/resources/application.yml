@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql:///my_security?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
-    username: kun
+    username: root
     password: 3375
   session:
     store-type: none
@@ -13,6 +13,11 @@ security:
 
 kun:
   security:
-    browser:
-      loginPage: /demo-login.html
+#    browser:
+#      loginPage: /demo-login.html
+    captcha:
+      image:
+        width: 100
+        length: 6
+        urls: "/users,/users/*"
 

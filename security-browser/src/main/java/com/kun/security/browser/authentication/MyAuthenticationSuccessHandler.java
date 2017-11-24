@@ -30,7 +30,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     private ObjectMapper objectMapper;
     
     /**
-     * 登陆成功时触发
+     * 登陆/认证成功时触发
      *
      * @param request
      * @param response
@@ -42,7 +42,8 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        log.info("登陆成功");
+        log.info("登陆/认证成功");
+        
         if (AuthHandleType.JSON == securityProperties.getCommon().getAuthHandleType()) {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(authentication));
