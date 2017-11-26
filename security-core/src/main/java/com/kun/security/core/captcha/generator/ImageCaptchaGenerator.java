@@ -1,7 +1,6 @@
 package com.kun.security.core.captcha.generator;
 
-import com.kun.security.core.captcha.ImageCaptcha;
-import com.kun.security.core.captcha.generator.CaptchaGenerator;
+import com.kun.security.core.captcha.type.ImageCaptcha;
 import com.kun.security.core.properties.SecurityProperties;
 import org.springframework.web.bind.ServletRequestUtils;
 
@@ -14,7 +13,7 @@ import java.util.Random;
  * @author CaoZiye
  * @version 1.0 2017/11/24 22:25
  */
-public class DefaultCaptchaGenerator implements CaptchaGenerator {
+public class ImageCaptchaGenerator implements CaptchaGenerator {
     
     private SecurityProperties securityProperties;
     
@@ -27,7 +26,7 @@ public class DefaultCaptchaGenerator implements CaptchaGenerator {
     }
     
     @Override
-    public ImageCaptcha createImageCaptcha(HttpServletRequest request) {
+    public ImageCaptcha createCaptcha(HttpServletRequest request) {
         int width = ServletRequestUtils.getIntParameter(
                 request, "width", securityProperties.getCaptcha().getImage().getWidth());
         int height = ServletRequestUtils.getIntParameter(

@@ -1,6 +1,6 @@
 package com.kun.security.core.captcha.generator;
 
-import com.kun.security.core.captcha.ImageCaptcha;
+import com.kun.security.core.captcha.type.StandardCaptcha;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface CaptchaGenerator {
     
-    ImageCaptcha createImageCaptcha(HttpServletRequest request);
+    StandardCaptcha createCaptcha(HttpServletRequest request);
     
 }

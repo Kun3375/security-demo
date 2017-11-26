@@ -11,13 +11,13 @@ security:
   basic:
     enabled: true
 
-kun:
-  security:
+#kun:
+#  security:
 #    browser:
 #      loginPage: /demo-login.html
-    captcha:
-      image:
-        width: 100
-        length: 6
-        urls: "/users,/users/*"
+#    captcha:
+#      image:
+#        width: 100
+#        length: 6
+#        urls: "/users,/users/*"
 

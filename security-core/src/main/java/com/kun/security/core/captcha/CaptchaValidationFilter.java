@@ -1,5 +1,6 @@
 package com.kun.security.core.captcha;
 
+import com.kun.security.core.captcha.type.ImageCaptcha;
 import com.kun.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -44,7 +45,9 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
         super.afterPropertiesSet();
         String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(
                 securityProperties.getCaptcha().getImage().getUrls(), ",");
-        Collections.addAll(urls, configUrls);
+        if (configUrls != null) {
+            Collections.addAll(urls, configUrls);
+        }
         urls.add(securityProperties.getCommon().getLoginProcessingUrl());
     }
     

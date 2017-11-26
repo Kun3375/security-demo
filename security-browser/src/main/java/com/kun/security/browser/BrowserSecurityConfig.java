@@ -7,11 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author CaoZiye
@@ -28,11 +33,24 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailureHandler myAuthenticationFailureHandler;
     @Autowired
     private CaptchaValidationFilter captchaValidationFilter;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    private DataSource dataSource;
     
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         // 密码加解密方式
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public PersistentTokenRepository getPersistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+//        jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
     }
     
     @Override
@@ -50,6 +68,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(myAuthenticationSuccessHandler)
                 // 登陆失败处理（默认跳转至登陆表单）
                 .failureHandler(myAuthenticationFailureHandler)
+                // 记住我功能
+                .and()
+                .rememberMe()
+                .rememberMeParameter(securityProperties.getCommon().getRememberMeName())
+                .tokenRepository(getPersistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getCommon().getTokenValiditySeconds())
+                .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
                 // 不需要身份认证的页面

@@ -1,7 +1,5 @@
 package com.kun.security.core.properties;
 
-import java.util.Set;
-
 /**
  * @author CaoZiye
  * @version 1.0 2017/11/24 21:35

@@ -1,27 +1,23 @@
-package com.kun.security.core.captcha;
+package com.kun.security.core.captcha.type;
 
-import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
 /**
  * @author CaoZiye
- * @version 1.0 2017/11/23 20:34
+ * @version 1.0 2017/11/26 23:06
  */
-public class ImageCaptcha {
+public class StandardCaptcha {
     
     private String code;
-    private BufferedImage image;
     private LocalDateTime expireTime;
     
-    public ImageCaptcha(String code, BufferedImage image, int expireTime) {
+    public StandardCaptcha(String code, int expireTime) {
         this.code = code;
-        this.image = image;
         this.expireTime = LocalDateTime.now().plusSeconds(expireTime);
     }
     
-    public ImageCaptcha(String code, BufferedImage image, LocalDateTime expireTime) {
+    public StandardCaptcha(String code, LocalDateTime expireTime) {
         this.code = code;
-        this.image = image;
         this.expireTime = expireTime;
     }
     
@@ -31,14 +27,6 @@ public class ImageCaptcha {
     
     public void setCode(String code) {
         this.code = code;
-    }
-    
-    public BufferedImage getImage() {
-        return image;
-    }
-    
-    public void setImage(BufferedImage image) {
-        this.image = image;
     }
     
     public LocalDateTime getExpireTime() {
@@ -52,4 +40,5 @@ public class ImageCaptcha {
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expireTime);
     }
+    
 }

@@ -1,7 +1,9 @@
 package com.kun.security.core.captcha;
 
 import com.kun.security.core.captcha.generator.CaptchaGenerator;
-import com.kun.security.core.captcha.generator.DefaultCaptchaGenerator;
+import com.kun.security.core.captcha.generator.ImageCaptchaGenerator;
+import com.kun.security.core.captcha.support.sms.DefaultSmsCaptchaSender;
+import com.kun.security.core.captcha.support.sms.SmsCaptchaSender;
 import com.kun.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,9 +23,15 @@ public class CaptchaConfig {
     @Bean
     @ConditionalOnMissingBean(CaptchaGenerator.class)
     public CaptchaGenerator getCaptchaGenerator() {
-        DefaultCaptchaGenerator captchaGenerator = new DefaultCaptchaGenerator();
+        ImageCaptchaGenerator captchaGenerator = new ImageCaptchaGenerator();
         captchaGenerator.setSecurityProperties(securityProperties);
         return captchaGenerator;
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(SmsCaptchaSender.class)
+    public SmsCaptchaSender getSmsCaptchaSender() {
+        return new DefaultSmsCaptchaSender();
     }
     
     
