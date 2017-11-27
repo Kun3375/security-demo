@@ -2,7 +2,6 @@ package com.kun.security.core.captcha.processor;
 
 import com.kun.security.core.captcha.generator.CaptchaGenerator;
 import com.kun.security.core.captcha.type.Captcha;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -14,16 +13,13 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public abstract class AbstractCaptchaProcessor<C extends Captcha> implements CaptchaProcessor {
     
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
     public static final String SESSION_KEY_PREFIX = "SESSION_CAPTCHA_";
-    private static final String CAPTCHA_GENERATOR = "CaptchaGenerator";
-    private static final String CAPTCHA_IDENTIFIER_PREFIX = "/captcha/";
+    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
     @Autowired
     private CaptchaGenerator<C> captchaGenerator;
     
     @Override
-    public void create(ServletWebRequest request) throws Exception {
-        String captchaType = getCaptchaType(request);
+    public void create(ServletWebRequest request, String captchaType) throws Exception {
         C captcha = generate(request);
         save(request, captchaType, captcha);
         send(request, captcha);
@@ -37,10 +33,6 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
     
     private C generate(ServletWebRequest request) {
         return captchaGenerator.createCaptcha(request.getRequest());
-    }
-    
-    private String getCaptchaType(ServletWebRequest request) {
-        return StringUtils.substringAfter(request.getRequest().getRequestURI(), CAPTCHA_IDENTIFIER_PREFIX);
     }
     
 }

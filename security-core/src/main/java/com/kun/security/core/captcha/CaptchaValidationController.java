@@ -27,8 +27,8 @@ public class CaptchaValidationController {
     public void createCaptcha(HttpServletRequest request,
                               HttpServletResponse response,
                               @PathVariable("type") String captchaType) throws Exception {
-        ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
-        captchaProcessorMap.get(captchaType + CAPTCHA_PROCESSOR).create(servletWebRequest);
+        captchaProcessorMap.get(captchaType + CAPTCHA_PROCESSOR).create(
+                new ServletWebRequest(request, response), captchaType);
     }
     
 }

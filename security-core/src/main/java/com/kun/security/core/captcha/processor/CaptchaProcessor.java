@@ -8,6 +8,6 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public interface CaptchaProcessor {
 
-    void create(ServletWebRequest request) throws Exception;
+    void create(ServletWebRequest request, String captchaType) throws Exception;
 
 }
