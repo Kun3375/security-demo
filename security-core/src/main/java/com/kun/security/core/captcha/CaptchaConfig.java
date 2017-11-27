@@ -21,8 +21,8 @@ public class CaptchaConfig {
     private SecurityProperties securityProperties;
     
     @Bean
-    @ConditionalOnMissingBean(CaptchaGenerator.class)
-    public CaptchaGenerator getCaptchaGenerator() {
+    @ConditionalOnMissingBean(name = "imageCaptchaGenerator")
+    public CaptchaGenerator imageCaptchaGenerator() {
         ImageCaptchaGenerator captchaGenerator = new ImageCaptchaGenerator();
         captchaGenerator.setSecurityProperties(securityProperties);
         return captchaGenerator;
@@ -30,7 +30,7 @@ public class CaptchaConfig {
     
     @Bean
     @ConditionalOnMissingBean(SmsCaptchaSender.class)
-    public SmsCaptchaSender getSmsCaptchaSender() {
+    public SmsCaptchaSender smsCaptchaSender() {
         return new DefaultSmsCaptchaSender();
     }
     

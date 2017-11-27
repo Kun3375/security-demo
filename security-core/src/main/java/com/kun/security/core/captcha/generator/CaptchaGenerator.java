@@ -1,6 +1,6 @@
 package com.kun.security.core.captcha.generator;
 
-import com.kun.security.core.captcha.type.StandardCaptcha;
+import com.kun.security.core.captcha.type.Captcha;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author CaoZiye
  * @version 1.0 2017/11/24 22:23
  */
-public interface CaptchaGenerator {
+public interface CaptchaGenerator<C extends Captcha> {
     
-    StandardCaptcha createCaptcha(HttpServletRequest request);
+    C createCaptcha(HttpServletRequest request);
     
 }

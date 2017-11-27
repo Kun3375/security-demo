@@ -1,5 +1,6 @@
 package com.kun.security.core.captcha;
 
+import com.kun.security.core.captcha.processor.AbstractCaptchaProcessor;
 import com.kun.security.core.captcha.type.ImageCaptcha;
 import com.kun.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
@@ -44,7 +45,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
         String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(
-                securityProperties.getCaptcha().getImage().getUrls(), ",");
+                securityProperties.getCaptcha().getImageCaptcha().getUrls(), ",");
         if (configUrls != null) {
             Collections.addAll(urls, configUrls);
         }
@@ -77,7 +78,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
     private void validate(ServletWebRequest request) throws ServletRequestBindingException {
         // session中存储的验证码正确值
         ImageCaptcha captchaInSession =
-                (ImageCaptcha) sessionStrategy.getAttribute(request, CaptchaValidationController.SESSION_CAPTCHA_KEY);
+                (ImageCaptcha) sessionStrategy.getAttribute(request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX);
         // 请求中输入的验证码
         String captchaInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "captcha");
         
@@ -85,7 +86,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
             throw new CaptchaValidationException("验证码不存在");
         }
         
-        sessionStrategy.removeAttribute(request, CaptchaValidationController.SESSION_CAPTCHA_KEY);
+        sessionStrategy.removeAttribute(request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX);
         
         if (StringUtils.isBlank(captchaInRequest)) {
             throw new CaptchaValidationException("验证码不能为空");

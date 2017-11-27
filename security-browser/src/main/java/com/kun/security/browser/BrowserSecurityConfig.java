@@ -84,7 +84,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                         // 配置的登录页面
                         securityProperties.getBrowser().getLoginPage(),
                         // 验证码路径
-                        "/captcha/image"
+                        "/captcha/*"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

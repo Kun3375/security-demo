@@ -16,7 +16,7 @@ security:
 #    browser:
 #      loginPage: /demo-login.html
 #    captcha:
-#      image:
+#      imageCaptcha:
 #        width: 100
 #        length: 6
 #        urls: "/users,/users/*"

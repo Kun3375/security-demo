@@ -6,13 +6,22 @@ package com.kun.security.core.properties;
  */
 public class CaptchaProperties {
     
-    private ImageCaptchaProperties image = new ImageCaptchaProperties();
+    private StandardCaptchaProperties standardCaptcha = new StandardCaptchaProperties();
+    private ImageCaptchaProperties imageCaptcha = new ImageCaptchaProperties();
     
-    public ImageCaptchaProperties getImage() {
-        return image;
+    public StandardCaptchaProperties getStandardCaptcha() {
+        return standardCaptcha;
     }
     
-    public void setImage(ImageCaptchaProperties image) {
-        this.image = image;
+    public void setStandardCaptcha(StandardCaptchaProperties standardCaptcha) {
+        this.standardCaptcha = standardCaptcha;
+    }
+    
+    public ImageCaptchaProperties getImageCaptcha() {
+        return imageCaptcha;
+    }
+    
+    public void setImageCaptcha(ImageCaptchaProperties imageCaptcha) {
+        this.imageCaptcha = imageCaptcha;
     }
 }

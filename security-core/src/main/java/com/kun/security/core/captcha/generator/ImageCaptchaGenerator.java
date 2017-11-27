@@ -13,7 +13,7 @@ import java.util.Random;
  * @author CaoZiye
  * @version 1.0 2017/11/24 22:25
  */
-public class ImageCaptchaGenerator implements CaptchaGenerator {
+public class ImageCaptchaGenerator implements CaptchaGenerator<ImageCaptcha> {
     
     private SecurityProperties securityProperties;
     
@@ -28,9 +28,9 @@ public class ImageCaptchaGenerator implements CaptchaGenerator {
     @Override
     public ImageCaptcha createCaptcha(HttpServletRequest request) {
         int width = ServletRequestUtils.getIntParameter(
-                request, "width", securityProperties.getCaptcha().getImage().getWidth());
+                request, "width", securityProperties.getCaptcha().getImageCaptcha().getWidth());
         int height = ServletRequestUtils.getIntParameter(
-                request, "height", securityProperties.getCaptcha().getImage().getHeight());
+                request, "height", securityProperties.getCaptcha().getImageCaptcha().getHeight());
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     
         Random random = new Random();
@@ -49,7 +49,7 @@ public class ImageCaptchaGenerator implements CaptchaGenerator {
         }
     
         StringBuilder sb = new StringBuilder();
-        for (int i = 0, length = securityProperties.getCaptcha().getImage().getLength(); i < length; i++) {
+        for (int i = 0, length = securityProperties.getCaptcha().getImageCaptcha().getLength(); i < length; i++) {
             String rand = String.valueOf(random.nextInt(10));
             sb.append(rand);
             graphics.setColor(new Color(
@@ -63,7 +63,7 @@ public class ImageCaptchaGenerator implements CaptchaGenerator {
     
         return new ImageCaptcha(sb.toString(),
                 bufferedImage,
-                securityProperties.getCaptcha().getImage().getExpireTime());
+                securityProperties.getCaptcha().getImageCaptcha().getExpireTime());
     }
     
     private Color getRandomColor(int fc, int bc) {
