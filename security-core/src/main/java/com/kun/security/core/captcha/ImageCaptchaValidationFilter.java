@@ -30,7 +30,7 @@ import java.util.Set;
  * @version 1.0 2017/11/23 23:03
  */
 @Component
-public class CaptchaValidationFilter extends OncePerRequestFilter implements InitializingBean {
+public class ImageCaptchaValidationFilter extends OncePerRequestFilter implements InitializingBean {
     
     @Autowired
     private SecurityProperties securityProperties;
@@ -49,7 +49,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
         if (configUrls != null) {
             Collections.addAll(urls, configUrls);
         }
-        urls.add(securityProperties.getCommon().getLoginProcessingUrl());
+        urls.add(securityProperties.getCommon().getUsernamePasswordLoginProcessingUrl());
     }
     
     @Override
@@ -78,15 +78,16 @@ public class CaptchaValidationFilter extends OncePerRequestFilter implements Ini
     private void validate(ServletWebRequest request) throws ServletRequestBindingException {
         // session中存储的验证码正确值
         ImageCaptcha captchaInSession =
-                (ImageCaptcha) sessionStrategy.getAttribute(request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX);
+                (ImageCaptcha) sessionStrategy.getAttribute(
+                        request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX + "IMAGE");
         // 请求中输入的验证码
-        String captchaInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "captcha");
+        String captchaInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCaptcha");
         
         if (captchaInSession == null) {
             throw new CaptchaValidationException("验证码不存在");
         }
         
-        sessionStrategy.removeAttribute(request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX);
+        sessionStrategy.removeAttribute(request, AbstractCaptchaProcessor.SESSION_KEY_PREFIX + "IMAGE");
         
         if (StringUtils.isBlank(captchaInRequest)) {
             throw new CaptchaValidationException("验证码不能为空");

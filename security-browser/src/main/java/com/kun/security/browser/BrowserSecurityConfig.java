@@ -1,6 +1,8 @@
 package com.kun.security.browser;
 
-import com.kun.security.core.captcha.CaptchaValidationFilter;
+import com.kun.security.core.authentication.mobile.SmsCaptchaAuthenticationSecurityConfig;
+import com.kun.security.core.captcha.ImageCaptchaValidationFilter;
+import com.kun.security.core.captcha.SmsCaptchaValidationFilter;
 import com.kun.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,12 +34,16 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler myAuthenticationFailureHandler;
     @Autowired
-    private CaptchaValidationFilter captchaValidationFilter;
+    private ImageCaptchaValidationFilter imageCaptchaValidationFilter;
+    @Autowired
+    private SmsCaptchaValidationFilter smsCaptchaValidationFilter;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     @SuppressWarnings("SpringJavaAutowiringInspection")
     private DataSource dataSource;
+    @Autowired
+    private SmsCaptchaAuthenticationSecurityConfig smsCaptchaAuthenticationSecurityConfig;
     
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -49,7 +55,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     public PersistentTokenRepository getPersistentTokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
-//        jdbcTokenRepository.setCreateTableOnStartup(true);
+        //        jdbcTokenRepository.setCreateTableOnStartup(true);
         return jdbcTokenRepository;
     }
     
@@ -57,30 +63,37 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 // 在验证用户名密码之前验证验证码
-                .addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(smsCaptchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(imageCaptchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
+                
                 // 设置为表单登陆
                 .formLogin()
                 // 设置登陆页面
                 .loginPage("/authentication/require")
                 // 设置登陆表单提交路径
-                .loginProcessingUrl(securityProperties.getCommon().getLoginProcessingUrl())
+                .loginProcessingUrl(securityProperties.getCommon().getUsernamePasswordLoginProcessingUrl())
                 // 登陆成功处理（默认跳转至原目标）
                 .successHandler(myAuthenticationSuccessHandler)
                 // 登陆失败处理（默认跳转至登陆表单）
                 .failureHandler(myAuthenticationFailureHandler)
-                // 记住我功能
                 .and()
+                
+                // 记住我功能
                 .rememberMe()
                 .rememberMeParameter(securityProperties.getCommon().getRememberMeName())
                 .tokenRepository(getPersistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getCommon().getTokenValiditySeconds())
                 .userDetailsService(userDetailsService)
                 .and()
+                
+                // 页面授权
                 .authorizeRequests()
                 // 不需要身份认证的页面
                 .antMatchers(
                         // 默认的验证跳转路径
                         "/authentication/require",
+                        // 手机短信验证码登陆路径
+                        securityProperties.getCommon().getMobileLoginProcessingUrl(),
                         // 配置的登录页面
                         securityProperties.getBrowser().getLoginPage(),
                         // 验证码路径
@@ -88,6 +101,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable();
+                
+                // 防护
+                .csrf().disable()
+                
+                // 额外配置
+                .apply(smsCaptchaAuthenticationSecurityConfig);
     }
 }
