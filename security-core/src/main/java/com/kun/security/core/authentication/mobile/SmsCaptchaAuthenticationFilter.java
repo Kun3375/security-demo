@@ -1,7 +1,7 @@
 package com.kun.security.core.authentication.mobile;
 
+import com.kun.security.core.properties.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -19,9 +19,7 @@ public class SmsCaptchaAuthenticationFilter extends AbstractAuthenticationProces
     // ~ Static fields/initializers
     // =====================================================================================
     
-    public static final String LOGIN_FORM_MOBILE_KEY = "mobile";
-    
-    private String usernameParameter = LOGIN_FORM_MOBILE_KEY;
+    private String usernameParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
     
     // ~ Constructors
@@ -62,7 +60,6 @@ public class SmsCaptchaAuthenticationFilter extends AbstractAuthenticationProces
      * including additional values and a separator.
      *
      * @param request so that request attributes can be retrieved
-     *
      * @return the username that will be presented in the <code>Authentication</code>
      * request token to the <code>AuthenticationManager</code>
      */
@@ -74,24 +71,13 @@ public class SmsCaptchaAuthenticationFilter extends AbstractAuthenticationProces
      * Provided so that subclasses may configure what is put into the authentication
      * request's details property.
      *
-     * @param request that an authentication request is being created for
+     * @param request     that an authentication request is being created for
      * @param authRequest the authentication request object that should have its details
-     * set
+     *                    set
      */
     protected void setDetails(HttpServletRequest request,
                               SmsCaptchaAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-    }
-    
-    /**
-     * Sets the parameter name which will be used to obtain the username from the login
-     * request.
-     *
-     * @param usernameParameter the parameter name. Defaults to "mobile".
-     */
-    public void setUsernameParameter(String usernameParameter) {
-        Assert.hasText(usernameParameter, "Mobile parameter must not be empty or null");
-        this.usernameParameter = usernameParameter;
     }
     
     /**
@@ -109,6 +95,17 @@ public class SmsCaptchaAuthenticationFilter extends AbstractAuthenticationProces
     
     public final String getUsernameParameter() {
         return usernameParameter;
+    }
+    
+    /**
+     * Sets the parameter name which will be used to obtain the username from the login
+     * request.
+     *
+     * @param usernameParameter the parameter name. Defaults to "mobile".
+     */
+    public void setUsernameParameter(String usernameParameter) {
+        Assert.hasText(usernameParameter, "Mobile parameter must not be empty or null");
+        this.usernameParameter = usernameParameter;
     }
     
 }

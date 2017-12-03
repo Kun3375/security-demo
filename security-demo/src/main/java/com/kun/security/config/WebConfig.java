@@ -31,6 +31,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     /**
      * 当controller需要异步支持时配置。
      * 可以注册callable/deferredResult支持的异步拦截器，默认超时时间，以及使用的线程池
+     *
      * @param configurer
      */
     @Override
@@ -41,6 +42,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     
     /**
      * 使用@Component+@Configuration+WebMvcConfigurerAdapter添加interceptor
+     *
      * @param registry 拦截器注册器
      */
     @Override
@@ -51,6 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     /**
      * 使用@Component注册filter，
      * 或者通过@Configuration+@Bean注册filter，配置灵活
+     *
      * @return 过滤器注册器
      */
     @Bean
@@ -70,5 +73,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         
         return filterRegistrationBean;
     }
-
+    
 }

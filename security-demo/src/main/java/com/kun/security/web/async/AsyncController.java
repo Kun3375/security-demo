@@ -34,7 +34,7 @@ public class AsyncController {
             log.info("副线程结束");
             return "success";
         };
-    
+        
         log.info("主线程结束");
         return result;
     }
@@ -45,7 +45,7 @@ public class AsyncController {
         
         String orderNumber = RandomStringUtils.randomNumeric(8);
         mockQueue.setPlaceOrder(orderNumber);
-    
+        
         DeferredResult<String> result = new DeferredResult<>();
         deferredResultHolder.getMap().put(orderNumber, result);
         

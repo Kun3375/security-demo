@@ -2,6 +2,7 @@ package com.kun.security.core.captcha.processor;
 
 import com.kun.security.core.captcha.support.sms.SmsCaptchaSender;
 import com.kun.security.core.captcha.type.StandardCaptcha;
+import com.kun.security.core.properties.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -21,10 +22,21 @@ public class SmsCaptchaProcessor extends AbstractCaptchaProcessor<StandardCaptch
     private SmsCaptchaSender smsCaptchaSender;
     
     @Override
-    protected void send(ServletWebRequest request, StandardCaptcha captcha) throws IOException, ServletRequestBindingException {
+    protected void send(ServletWebRequest request, StandardCaptcha captcha) throws IOException,
+            ServletRequestBindingException {
         // should send message captcha
         smsCaptchaSender.send(ServletRequestUtils.getRequiredStringParameter(
                 request.getRequest(), "mobile"),
                 captcha.getCode());
+    }
+    
+    @Override
+    protected String getSessionCaptchaKey() {
+        return SESSION_CAPTCHA_KEY_PREFIX + "SMS";
+    }
+    
+    @Override
+    protected String getRequestCaptchaKey() {
+        return SecurityConstants.DEFAULT_PARAMETER_NAME_CAPTCHA_SMS;
     }
 }

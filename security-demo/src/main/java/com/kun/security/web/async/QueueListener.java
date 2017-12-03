@@ -29,14 +29,14 @@ public class QueueListener implements ApplicationListener<ContextRefreshedEvent>
          */
         new Thread(() -> {
             //noinspection InfiniteLoopStatement
-            while(true){
+            while (true) {
                 if (StringUtils.isNotBlank(mockQueue.getCompleteOrder())) {
-                
+                    
                     String orderNumber = mockQueue.getCompleteOrder();
                     log.info("返回订单处理结果 " + orderNumber);
                     deferredResultHolder.getMap().get(orderNumber).setResult("success");
                     mockQueue.setCompleteOrder(null);
-                
+                    
                 } else {
                     try {
                         Thread.sleep(100);

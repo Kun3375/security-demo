@@ -6,4 +6,8 @@ package com.kun.security.core.captcha.type;
  */
 public interface Captcha {
     
+    boolean isExpired();
+    
+    String getCode();
+    
 }

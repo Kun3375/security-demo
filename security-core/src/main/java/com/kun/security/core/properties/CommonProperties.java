@@ -6,18 +6,18 @@ package com.kun.security.core.properties;
  */
 public class CommonProperties {
     
-    private String usernamePasswordLoginProcessingUrl = "/authentication/form";
-    private String mobileLoginProcessingUrl = "/authentication/mobile";
+    private String passwordLoginProcessingUrl = SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_PASSWORD;
+    private String mobileLoginProcessingUrl = SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE;
     private AuthHandleType authHandleType = AuthHandleType.JSON;
-    private int tokenValiditySeconds = 3600;
-    private String rememberMeName = "remember-me";
+    private int tokenValiditySeconds = SecurityConstants.DEFAULT_TOKEN_VALIDITY_SECONDS;
+    private String rememberMeName = SecurityConstants.DEFAULT_REMEMBER_ME_NAME;
     
-    public String getUsernamePasswordLoginProcessingUrl() {
-        return usernamePasswordLoginProcessingUrl;
+    public String getPasswordLoginProcessingUrl() {
+        return passwordLoginProcessingUrl;
     }
     
-    public void setUsernamePasswordLoginProcessingUrl(String usernamePasswordLoginProcessingUrl) {
-        this.usernamePasswordLoginProcessingUrl = usernamePasswordLoginProcessingUrl;
+    public void setPasswordLoginProcessingUrl(String passwordLoginProcessingUrl) {
+        this.passwordLoginProcessingUrl = passwordLoginProcessingUrl;
     }
     
     public String getMobileLoginProcessingUrl() {

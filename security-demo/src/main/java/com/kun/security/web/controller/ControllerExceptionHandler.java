@@ -19,7 +19,7 @@ public class ControllerExceptionHandler {
     
     /**
      * 针对UserNotExistException的全局处理。
-     *
+     * <p>
      * 如果不适用全局异常处理，会使用SpringBoot默认方式BasicErrorController，
      * 如果请求头中Accept信息包含text/html则返回页面，否则返回JSON。
      * 返回的页面可以自定义，存放于classpath:resources/error/{HttpStatus}.html

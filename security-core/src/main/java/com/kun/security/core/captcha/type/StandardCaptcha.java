@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * @author CaoZiye
  * @version 1.0 2017/11/26 23:06
  */
-public class StandardCaptcha implements Captcha{
+public class StandardCaptcha implements Captcha {
     
     private String code;
     private LocalDateTime expireTime;
@@ -21,6 +21,7 @@ public class StandardCaptcha implements Captcha{
         this.expireTime = expireTime;
     }
     
+    @Override
     public String getCode() {
         return code;
     }
@@ -37,6 +38,7 @@ public class StandardCaptcha implements Captcha{
         this.expireTime = expireTime;
     }
     
+    @Override
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expireTime);
     }

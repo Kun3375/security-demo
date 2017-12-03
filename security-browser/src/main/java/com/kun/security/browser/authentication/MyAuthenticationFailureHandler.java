@@ -45,7 +45,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         log.info("登陆/认证失败");
-    
+        
         if (AuthHandleType.JSON == securityProperties.getCommon().getAuthHandleType()) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json;charset=UTF-8");

@@ -10,7 +10,7 @@ import java.util.Collection;
  * @author CaoZiye
  * @version 1.0 2017/12/2 19:01
  */
-public class SmsCaptchaAuthenticationToken extends AbstractAuthenticationToken{
+public class SmsCaptchaAuthenticationToken extends AbstractAuthenticationToken {
     
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
     
@@ -26,7 +26,6 @@ public class SmsCaptchaAuthenticationToken extends AbstractAuthenticationToken{
      * This constructor can be safely used by any code that wishes to create a
      * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
      * will return <code>false</code>.
-     *
      */
     public SmsCaptchaAuthenticationToken(String mobile) {
         super(null);
@@ -44,7 +43,7 @@ public class SmsCaptchaAuthenticationToken extends AbstractAuthenticationToken{
      * @param authorities
      */
     public SmsCaptchaAuthenticationToken(Object principal,
-                                               Collection<? extends GrantedAuthority> authorities) {
+                                         Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         super.setAuthenticated(true); // must use super, as we override

@@ -33,7 +33,7 @@ public class FileController {
     public void fileDownload(@PathVariable("id") String id,
                              HttpServletResponse response) throws IOException {
         
-        try (InputStream inputStream = new FileInputStream(new File("security-demo",id + ".txt"));
+        try (InputStream inputStream = new FileInputStream(new File("security-demo", id + ".txt"));
              OutputStream outputStream = response.getOutputStream()) {
             
             response.setContentType("application/x-download");

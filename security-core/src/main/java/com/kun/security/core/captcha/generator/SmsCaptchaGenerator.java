@@ -20,8 +20,8 @@ public class SmsCaptchaGenerator implements CaptchaGenerator<StandardCaptcha> {
     
     @Override
     public StandardCaptcha createCaptcha(HttpServletRequest request) {
-        String code = RandomStringUtils.randomNumeric(securityProperties.getCaptcha().getStandardCaptcha().getLength());
-        return new StandardCaptcha(code, securityProperties.getCaptcha().getStandardCaptcha().getExpireTime());
+        String code = RandomStringUtils.randomNumeric(securityProperties.getCaptcha().getSmsCaptcha().getLength());
+        return new StandardCaptcha(code, securityProperties.getCaptcha().getSmsCaptcha().getExpireTime());
     }
     
 }

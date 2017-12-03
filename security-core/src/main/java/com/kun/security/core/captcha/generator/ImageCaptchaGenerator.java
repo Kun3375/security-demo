@@ -32,10 +32,10 @@ public class ImageCaptchaGenerator implements CaptchaGenerator<ImageCaptcha> {
         int height = ServletRequestUtils.getIntParameter(
                 request, "height", securityProperties.getCaptcha().getImageCaptcha().getHeight());
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    
+        
         Random random = new Random();
         Graphics graphics = bufferedImage.getGraphics();
-    
+        
         graphics.setColor(getRandomColor(200, 250));
         graphics.fillRect(0, 0, width, height);
         graphics.setFont(new Font("Times New Roman", Font.ITALIC, 20));
@@ -47,7 +47,7 @@ public class ImageCaptchaGenerator implements CaptchaGenerator<ImageCaptcha> {
             int yl = random.nextInt(12);
             graphics.drawLine(x, y, x + xl, y + yl);
         }
-    
+        
         StringBuilder sb = new StringBuilder();
         for (int i = 0, length = securityProperties.getCaptcha().getImageCaptcha().getLength(); i < length; i++) {
             String rand = String.valueOf(random.nextInt(10));
@@ -58,9 +58,9 @@ public class ImageCaptchaGenerator implements CaptchaGenerator<ImageCaptcha> {
                     20 + random.nextInt(110)));
             graphics.drawString(rand, 13 * i + 6, 16);
         }
-    
+        
         graphics.dispose();
-    
+        
         return new ImageCaptcha(sb.toString(),
                 bufferedImage,
                 securityProperties.getCaptcha().getImageCaptcha().getExpireTime());
@@ -68,7 +68,7 @@ public class ImageCaptchaGenerator implements CaptchaGenerator<ImageCaptcha> {
     
     private Color getRandomColor(int fc, int bc) {
         Random random = new Random();
-        if (fc > 255){
+        if (fc > 255) {
             fc = 255;
         }
         if (bc > 255) {

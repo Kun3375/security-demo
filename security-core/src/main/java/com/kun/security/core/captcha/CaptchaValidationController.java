@@ -18,10 +18,9 @@ import java.util.Map;
 @RestController
 public class CaptchaValidationController {
     
+    private static final String CAPTCHA_PROCESSOR = "CaptchaProcessor";
     @Autowired
     private Map<String, CaptchaProcessor> captchaProcessorMap;
-    
-    private static final String CAPTCHA_PROCESSOR = "CaptchaProcessor";
     
     @GetMapping("/captcha/{type}")
     public void createCaptcha(HttpServletRequest request,

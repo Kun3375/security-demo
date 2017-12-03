@@ -18,7 +18,7 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint, 
     @Override
     public void initialize(MyConstraint constraintAnnotation) {
         System.out.println("my constraint validator is initializing");
-        if(myConstraintService != null){
+        if (myConstraintService != null) {
             System.out.println("my constraint service inject succeed");
         } else {
             System.out.println("my constraint service inject failed");

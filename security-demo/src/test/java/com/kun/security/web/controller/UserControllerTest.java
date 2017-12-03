@@ -43,8 +43,8 @@ public class UserControllerTest {
         mockMvc.perform(get("/users")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .param("username", "kun")
-                .param("age","23")
-                .param("page","3")
+                .param("age", "23")
+                .param("page", "3")
                 .param("size", "10")
                 .param("sort", "age,DESC").param("sort", "username,ASC"))
                 .andExpect(status().isOk())
@@ -66,13 +66,14 @@ public class UserControllerTest {
     @Test
     public void whenGetInfoFail() throws Exception {
         mockMvc.perform(get("/users/kun")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().is4xxClientError());
     }
     
     @Test
     public void whenCreateSuccess() throws Exception {
-        Date birthday = new Date(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        Date birthday = new Date(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant()
+                .toEpochMilli());
         String content = "{\"username\":\"kun\",\"password\":null,\"birthday\":" + birthday.getTime() + "}";
         String result = mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

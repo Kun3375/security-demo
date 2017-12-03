@@ -19,5 +19,5 @@ security:
 #      imageCaptcha:
 #        width: 100
 #        length: 6
-#        urls: "/users,/users/*"
+#        uris: "/users,/users/*"
 

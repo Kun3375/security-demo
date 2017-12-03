@@ -23,7 +23,7 @@ public class SmsCaptchaAuthenticationProvider implements AuthenticationProvider 
         if (userDetails == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
-    
+        
         SmsCaptchaAuthenticationToken authenticationResult
                 = new SmsCaptchaAuthenticationToken(userDetails, userDetails.getAuthorities());
         authenticationResult.setDetails(authentication.getDetails());

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MockQueue {
-
+    
     private String placeOrder;
     private String completeOrder;
     
@@ -21,7 +21,7 @@ public class MockQueue {
         /*
          * 模拟订单处理服务器的操作
          */
-        new Thread( () -> {
+        new Thread(() -> {
             
             System.out.println("接到下单请求" + placeOrder);
             this.placeOrder = placeOrder;

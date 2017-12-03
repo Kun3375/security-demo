@@ -21,7 +21,7 @@ public @interface MyConstraint {
     
     String message() default "my constraint default error message";
     
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
     
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }

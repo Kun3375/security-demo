@@ -33,6 +33,7 @@ public class UserController {
     
     /**
      * 获得用户认证全部信息
+     *
      * @param authentication
      * @return
      */
@@ -43,6 +44,7 @@ public class UserController {
     
     /**
      * 获得用户认证基本信息
+     *
      * @param userDetails
      * @return
      */
@@ -53,6 +55,7 @@ public class UserController {
     
     /**
      * 新增用户
+     *
      * @param user
      * @param bindingResult
      * @return
@@ -61,10 +64,10 @@ public class UserController {
     @JsonView(User.UserSimpleView.class)
     @ApiOperation(value = "创建用户")
     public User create(@Valid @RequestBody User user, BindingResult bindingResult) {
-    
+        
         if (bindingResult.hasFieldErrors()) {
             bindingResult.getFieldErrors().forEach((error) ->
-                System.out.println(error.getField() + " " + error.getDefaultMessage())
+                    System.out.println(error.getField() + " " + error.getDefaultMessage())
             );
         }
         
@@ -75,6 +78,7 @@ public class UserController {
     
     /**
      * 查询用户列表
+     *
      * @param userCondition
      * @param pageable
      * @return
@@ -104,6 +108,7 @@ public class UserController {
     
     /**
      * 查询单用户信息
+     *
      * @param id
      * @return
      */
@@ -112,7 +117,7 @@ public class UserController {
     public User getInfo(@ApiParam("用户编号") @PathVariable("id") Integer id) {
         System.out.println("get info");
         System.out.println(id);
-    
+        
         if (id > 10) {
             throw new UserNotExistException(id);
         }
@@ -125,6 +130,7 @@ public class UserController {
     
     /**
      * 删除用户
+     *
      * @param id
      */
     @DeleteMapping("/{id:\\d+}")

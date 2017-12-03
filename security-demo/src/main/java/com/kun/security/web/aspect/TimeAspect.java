@@ -13,21 +13,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeAspect {
     
-//    @Around(value = "args(user,..) && execution(* com.kun.security.web.controller.UserController.*(..))")
+    //    @Around(value = "args(user,..) && execution(* com.kun.security.web.controller.UserController.*(..))")
     @Around("execution(public * com.kun.security.web.controller.UserController.*(..))")
     public Object handleUserController(ProceedingJoinPoint pjp) throws Throwable {
         
         long start = System.currentTimeMillis();
         System.out.println("enter time aspect");
-    
+        
         for (Object o : pjp.getArgs()) {
             System.out.println("arg is " + o);
         }
         
         Object result = pjp.proceed();
-    
+        
         System.out.println("exit time aspect, consumed:" + (System.currentTimeMillis() - start));
-
+        
         return result;
     }
     

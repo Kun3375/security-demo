@@ -5,8 +5,8 @@ package com.kun.security.core.properties;
  * @version 1.0 2017/11/19 21:59
  */
 public class BrowserProperties {
-
-    private String loginPage = "/login.html";
+    
+    private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
     
     public String getLoginPage() {
         return loginPage;

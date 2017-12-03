@@ -14,22 +14,15 @@ import java.util.Date;
  */
 public class User {
     
-    public interface UserSimpleView {}
-    
-    public interface UserDetailView extends UserSimpleView {}
-    
     @JsonView(UserSimpleView.class)
     private Integer id;
-    
     @JsonView(UserSimpleView.class)
     @MyConstraint(message = "用户名不正确")
     private String username;
-    
     @JsonView(UserDetailView.class)
     @NotBlank(message = "密码不能为空")
     @ApiModelProperty(hidden = true)
     private String password;
-    
     @JsonView(UserSimpleView.class)
     @Past(message = "生日必须为过去时间")
     private Date birthday;
@@ -77,5 +70,13 @@ public class User {
                 ", password='" + password + '\'' +
                 ", birthday=" + birthday +
                 '}';
+    }
+    
+    public interface UserSimpleView {
+    
+    }
+    
+    public interface UserDetailView extends UserSimpleView {
+    
     }
 }

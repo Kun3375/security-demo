@@ -28,7 +28,7 @@ public class SmsCaptchaAuthenticationSecurityConfig
     
     @Override
     public void configure(HttpSecurity builder) throws Exception {
-    
+        
         SmsCaptchaAuthenticationFilter filter = new SmsCaptchaAuthenticationFilter();
         filter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
         filter.setAuthenticationSuccessHandler(authenticationSuccessHandler);

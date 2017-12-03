@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * @author CaoZiye
  * @version 1.0 2017/11/23 20:34
  */
-public class ImageCaptcha extends StandardCaptcha{
+public class ImageCaptcha extends StandardCaptcha {
     
     private BufferedImage image;
     
